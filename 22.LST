@@ -1,0 +1,144 @@
+Microsoft (R) Macro Assembler Version 5.00                  4/14/24 40:09:39
+                                                             Page     1-1
+
+
+       1				assume cs:code,ds:data  
+       2 0000				data segment 
+       3 0000  32 32 32 33 33 31 32	    STR db '222331215412345678912$'  
+       4       31 35 34 31 32 33 34	
+       5       35 36 37 38 39 31 32	
+       6       24			
+       7 0016  000A[			    COUNT dw 10 dup(0000H) 
+       8	   0000			
+       9			 ]	
+      10				
+      11 002A  0A 0D 24			    crlf db 0AH,0DH,'$' 
+      12 002D  72 65 73 75 6C 74 0A	    result	db'result',0Ah,0Dh,'$' 
+      13       0D 24			
+      14 0036  6D 6F 73 74 20 6E 75	    highest db'most number and its time
+					s',0Ah,0Dh,'$' 
+      15       6D 62 65 72 20 61 6E	
+      16       64 20 69 74 73 20 74	
+      17       69 6D 65 73 0A 0D 24	
+      18 0052				data ends  
+      19 0000				code segment 
+      20 0000				    main proc  
+      21 0000  B8 ---- R		    mov ax,data  
+      22 0003  8E D8			    mov ds,ax 
+      23 0005  BE 0000 R		    mov si,offset STR  
+      24 0008				loop1: 
+      25 0008  33 C0			    xor ax,ax  
+      26 000A  8A 04			    mov al,[si]  
+      27 000C  3C 24			    cmp al,'$' 
+      28 000E  74 15			    je short loop1_end  
+      29 0010  3C 30			    cmp al,'0' 
+      30 0012  72 0E			    jb skip  
+      31 0014  3C 39			    cmp al,'9'  
+      32 0016  77 0A			    ja skip  
+      33 0018  2C 30			    sub al,'0'  
+      34 001A  8B F8			    mov di,ax  
+      35 001C  D1 E7			    shl di,1 
+      36 001E  FF 85 0016 R		    inc word ptr COUNT[di]  
+      37 0022				skip: 
+      38 0022  46			    inc si 
+      39 0023  EB E3			    jmp short loop1 
+      40				  
+      41 0025				loop1_end: 
+      42 0025  BA 002D R		    mov dx, offset result  
+      43 0028  B4 09			    mov ah, 09H 
+      44 002A  CD 21			    int 21H 
+      45 002C  BA 0036 R		    mov dx, offset highest  
+      46 002F  CD 21			    int 21H 
+      47 0031  33 DB			    xor bx, bx  
+      48 0033  33 FF			    xor di, di 
+      49 0035				loop2: 
+      50 0035  83 FB 0A			    cmp bx, 10  
+      51 0038  73 18			    jnb loop2_end  
+      52 003A  8B F3			    mov si, bx  
+      53 003C  D1 E6			    shl si, 1 
+Microsoft (R) Macro Assembler Version 5.00                  4/14/24 40:09:39
+                                                             Page     1-2
+
+
+      54 003E  8B 8C 0016 R		    mov cx, COUNT[si]  
+      55 0042  3B 8D 0016 R		    cmp cx, COUNT[di]  
+      56 0046  72 02			    jb short skip_max  
+      57 0048  8B FE			    mov di, si 
+      58 004A				skip_max:  
+      59 004A  8A D3			    mov dl, bl  
+      60 004C  80 C2 30			    add dl, '0' 
+      61 004F				skip2: 
+      62 004F  43			    inc bx 
+      63 0050  EB E3			    jmp short loop2  
+      64 0052				loop2_end: 
+      65 0052  8B D7			    mov dx, di  
+      66 0054  D1 EA			    shr dx, 1  
+      67 0056  32 F6			    xor dh, dh  
+      68 0058  80 C2 30			    add dl, '0'  
+      69 005B  B4 02			    mov ah, 02H  
+      70 005D  CD 21			    int 21H 
+      71 005F  B2 2C			    mov dl, ','  
+      72 0061  CD 21			    int 21H 
+      73 0063  8B 85 0016 R		    mov ax, COUNT[di]  
+      74 0067  3D 000A			    cmp ax, 10 
+      75 006A  72 00			    jb short re_end  
+      76 006C				re_end: 
+      77 006C  32 E4			    xor ah,ah  
+      78 006E  8A D0			    mov dl, al  
+      79 0070  80 C2 30			    add dl, '0'  
+      80 0073  B4 02			    mov ah, 02H  
+      81 0075  CD 21			    int 21H 
+      82 0077  BA 002A R		    mov dx, offset crlf  
+      83 007A  B4 09			    mov ah, 09H 
+      84 007C  CD 21			    int 21H 
+      85 007E  B8 4C00			    mov ax, 4C00H  
+      86 0081  CD 21			    int 21H 
+      87 0083				    main endp  
+      88 0083				code ends  
+      89				end main 
+Microsoft (R) Macro Assembler Version 5.00                  4/14/24 40:09:39
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0083	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0052	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+COUNT  . . . . . . . . . . . . .  	L WORD	0016	DATA	Length = 000A
+CRLF . . . . . . . . . . . . . .  	L BYTE	002A	DATA
+
+HIGHEST  . . . . . . . . . . . .  	L BYTE	0036	DATA
+
+LOOP1  . . . . . . . . . . . . .  	L NEAR	0008	CODE
+LOOP1_END  . . . . . . . . . . .  	L NEAR	0025	CODE
+LOOP2  . . . . . . . . . . . . .  	L NEAR	0035	CODE
+LOOP2_END  . . . . . . . . . . .  	L NEAR	0052	CODE
+
+MAIN . . . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 0083
+
+RESULT . . . . . . . . . . . . .  	L BYTE	002D	DATA
+RE_END . . . . . . . . . . . . .  	L NEAR	006C	CODE
+
+SKIP . . . . . . . . . . . . . .  	L NEAR	0022	CODE
+SKIP2  . . . . . . . . . . . . .  	L NEAR	004F	CODE
+SKIP_MAX . . . . . . . . . . . .  	L NEAR	004A	CODE
+STR  . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+@FILENAME  . . . . . . . . . . .  	TEXT  22		
+
+
+     79 Source  Lines
+     79 Total   Lines
+     18 Symbols
+
+  50408 + 466040 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

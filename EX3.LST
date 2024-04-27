@@ -1,0 +1,60 @@
+Microsoft (R) Macro Assembler Version 5.00                  3/31/24 12:26:15
+                                                             Page     1-1
+
+
+       1 0000				data segment 
+       2 0000  08			    x db 8H 
+       3 0001  02			    y db 2H 
+       4 0002				data ends 
+       5				 
+       6 0000				code segment 
+       7				    assume cs:code,ds:data 
+       8 0000				    main proc 
+       9 0000  B8 ---- R		        mov ax,data 
+      10 0003  8E D8			        mov ds,ax 
+      11 0005  33 C0			        xor ax,ax 
+      12 0007  8A 1E 0000 R		        mov bl, x 
+      13 000B  8A C3			        mov al, bl; 
+      14 000D  8A 0E 0001 R		        mov cl, y 
+      15 0011  F6 F1			        div cl 
+      16 0013  B2 02			        mov dl, 2H 
+      17 0015  F6 E2			        mul dl 
+      18 0017  BA 0000			        mov dx, 0H 
+      19 001A  8B D0			        mov dx, ax 
+      20 001C  B8 4C00			        mov ax,4c00H 
+      21 001F  CD 21			        int 21h 
+      22 0021				    main endp 
+      23 0021				code ends 
+      24				end main 
+Microsoft (R) Macro Assembler Version 5.00                  3/31/24 12:26:15
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0021	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0002	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+MAIN . . . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 0021
+
+X  . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+Y  . . . . . . . . . . . . . . .  	L BYTE	0001	DATA
+
+@FILENAME  . . . . . . . . . . .  	TEXT  EX3		
+
+
+     24 Source  Lines
+     24 Total   Lines
+      7 Symbols
+
+  50598 + 465850 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

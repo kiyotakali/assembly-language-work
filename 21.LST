@@ -1,0 +1,98 @@
+Microsoft (R) Macro Assembler Version 5.00                  4/14/24 18:51:24
+                                                             Page     1-1
+
+
+       1 0000				data segment 
+       2 0000  0022 0023 0031 0021	    M dw 0022h, 0023h, 0031h, 0021h, 00
+					54h, 0001h, 0002h, 0003h, 0004h, 0005h,
+					 0006h, 0007h, 0008h, 0009h, 0010h, 001
+					1h 
+       3       0054 0001 0002 0003	
+       4       0004 0005 0006 0007	
+       5       0008 0009 0010 0011	
+       6 0020  ????			    max dw ? 
+       7 0022  ????			    max_offset dw ? 
+       8 0024  0010			    n dw 16  
+       9 0026				data ends 
+      10				 
+      11 0000				code segment 
+      12				    assume cs:code, ds:data 
+      13 0000				start: 
+      14 0000  B8 ---- R		    mov ax, data 
+      15 0003  8E D8			    mov ds, ax 
+      16 0005  BB 0000			    mov bx, 0  
+      17 0008  8B 0E 0024 R		    mov cx, [n]  
+      18 000C  8B F1			    mov si, cx 
+      19 000E  D1 E6			    shl si, 1  
+      20 0010  8B FE			    mov di, si 
+      21 0012  A1 0000 R		    mov ax, [M]   
+      22 0015  89 05			    mov [di], ax   
+      23 0017  83 C6 02			    add si, 2   
+      24				 
+      25 001A				find_max: 
+      26 001A  8B 87 0000 R		    mov ax, [M+bx]   
+      27 001E  3D 8000			    cmp ax, 8000h   
+      28 0021  74 09			    je is_min_negt 
+      29 0023  0B C0			    or ax, ax   
+      30 0025  79 0D			    jns check_max   
+      31 0027  F7 D8			    neg ax ;  
+      32 0029  EB 09 90			    jmp check_max   
+      33 002C				is_min_negt: 
+      34 002C  89 05			    mov [di], ax   
+      35 002E  89 5D 02			    mov [di+2], bx   
+      36 0031  EB 0A 90			    jmp next_val  
+      37 0034				check_max: 
+      38 0034  3B 05			    cmp ax, [di] 
+      39 0036  7E 05			    jle next_val   
+      40 0038  89 05			    mov [di], ax   
+      41 003A  89 5D 02			    mov [di+2], bx   
+      42 003D				next_val: 
+      43 003D  83 C3 02			    add bx, 2  
+      44 0040  E2 D8			    loop find_max 
+      45				 
+      46 0042  B8 4C00			    mov ax, 4c00h 
+      47 0045  CD 21			    int 21h 
+      48 0047				code ends 
+      49				 
+      50				end start 
+Microsoft (R) Macro Assembler Version 5.00                  4/14/24 18:51:24
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0047	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0026	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+CHECK_MAX  . . . . . . . . . . .  	L NEAR	0034	CODE
+
+FIND_MAX . . . . . . . . . . . .  	L NEAR	001A	CODE
+
+IS_MIN_NEGT  . . . . . . . . . .  	L NEAR	002C	CODE
+
+M  . . . . . . . . . . . . . . .  	L WORD	0000	DATA
+MAX  . . . . . . . . . . . . . .  	L WORD	0020	DATA
+MAX_OFFSET . . . . . . . . . . .  	L WORD	0022	DATA
+
+N  . . . . . . . . . . . . . . .  	L WORD	0024	DATA
+NEXT_VAL . . . . . . . . . . . .  	L NEAR	003D	CODE
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	CODE
+
+@FILENAME  . . . . . . . . . . .  	TEXT  21		
+
+
+     47 Source  Lines
+     47 Total   Lines
+     13 Symbols
+
+  50448 + 466000 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

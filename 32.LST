@@ -1,0 +1,80 @@
+Microsoft (R) Macro Assembler Version 5.00                  4/27/24 14:38:33
+                                                             Page     1-1
+
+
+       1				func  macro 
+       2				    if  len le 5 
+       3					    rept len 
+       4						    add ax,ax 
+       5						endm  
+       6					else 
+       7					    rept 6 
+       8						    add ax,ax 
+       9					    endm  
+      10					endif 
+      11					  endm 
+      12				assume cs:code, ds:data 
+      13 0000				data segment 
+      14 0000  32 32 32 33 33 31 32	    id  db  '2223312154' 
+      15       31 35 34			
+      16 000A  31 32 31 35 34			X   db  '12154' 
+      17					;X   db  '2223312154' 
+      18 = 0005					len equ ($-X) 
+      19 000F				data ends 
+      20 0000				code segment 
+      21 0000				    main    proc 
+      22 0000  B8 ---- R		        mov   ax, data 
+      23 0003  8E D8			        mov   ds, ax 
+      24 0005  B8 0001			        mov ax,1 
+      25						func 
+      26 0008  03 C0                 2			    add ax,ax 
+      27 000A  03 C0                 2			    add ax,ax 
+      28 000C  03 C0                 2			    add ax,ax 
+      29 000E  03 C0                 2			    add ax,ax 
+      30 0010  03 C0                 2			    add ax,ax 
+      31 0012  B8 4C00			        mov   ax, 4c00h 
+      32 0015  CD 21			        int   21h 
+      33 0017				    main    endp 
+      34 0017				code ends 
+      35				end main  
+
+Microsoft (R) Macro Assembler Version 5.00                  4/27/24 14:38:33
+                                                             Symbols-1
+
+
+Macros:
+
+		N a m e			Lines
+
+FUNC . . . . . . . . . . . . . .  	   9
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0017	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	000F	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ID . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+LEN  . . . . . . . . . . . . . .  	NUMBER	0005	
+
+MAIN . . . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 0017
+
+X  . . . . . . . . . . . . . . .  	L BYTE	000A	DATA
+
+@FILENAME  . . . . . . . . . . .  	TEXT  32		
+
+
+     29 Source  Lines
+     43 Total   Lines
+      9 Symbols
+
+  50480 + 465968 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

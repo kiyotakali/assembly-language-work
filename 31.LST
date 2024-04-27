@@ -1,0 +1,119 @@
+Microsoft (R) Macro Assembler Version 5.00                  4/27/24 11:03:59
+                                                             Page     1-1
+
+
+       1				assume cs:code,ds:data  
+       2 0000				data segment 
+       3 0000  32 32 32 33 33 31 32	    id  db  '2223312154' 
+       4       31 35 34			
+       5 000A  4C 45 54 5A 49 58 63	    array  db  76,69,84,90,73,88,99,63,
+					100,80 
+       6       3F 64 50			
+       7 0014  00				s6  db  0 
+       8 0015  00				s7  db  0 
+       9 0016  00				s8  db  0 
+      10 0017  00				s9  db  0 
+      11 0018  00				s10  db  0 
+      12 0019				data ends 
+      13				 
+      14 0000				code segment 
+      15 0000				    main    proc  far 
+      16 0000  B8 ---- R		        mov   ax, data 
+      17 0003  8E D8			        mov   ds, ax 
+      18 0005  B9 000A					mov cx,10 
+      19 0008  8D 1E 000A R				lea bx,array 
+      20 000C				    xunhuan: 
+      21 000C  8A 07				    mov al,[bx] 
+      22 000E  E8 0019 R				call count 
+      23 0011  43					inc  bx 
+      24 0012  E2 F8					loop xunhuan 
+      25 0014  B8 4C00			        mov   ax, 4c00h 
+      26 0017  CD 21			        int   21h 
+      27 0019				    main    endp 
+      28					 
+      29 0019					count  proc  near 
+      30 0019  3C 64					cmp  al,100 
+      31 001B  74 14					jz   score_100 
+      32 001D  3C 3C					cmp  al,60 
+      33 001F  78 29					js   exit 
+      34 0021  3C 46					cmp  al,70 
+      35 0023  78 20					js   score_60 
+      36 0025  3C 50					cmp  al,80 
+      37 0027  78 17					js   score_70 
+      38 0029  3C 5A					cmp  al,90 
+      39 002B  78 0E					js   score_80 
+      40 002D  EB 07 90					jmp  score_90 
+      41 0030  C3				    ret 
+      42 0031					score_100:	 
+      43 0031  FE 06 0018 R				inc  s10 
+      44 0035  C3					ret 
+      45 0036					score_90:	 
+      46 0036  FE 06 0017 R				inc  s9 
+      47 003A  C3					ret 
+      48 003B					score_80:	 
+      49 003B  FE 06 0016 R				inc  s8 
+      50 003F  C3					ret 
+      51 0040					score_70: 
+      52 0040  FE 06 0015 R				inc  s7 
+      53 0044  C3					ret 
+Microsoft (R) Macro Assembler Version 5.00                  4/27/24 11:03:59
+                                                             Page     1-2
+
+
+      54 0045					score_60: 
+      55 0045  FE 06 0014 R				inc  s6 
+      56 0049  C3					ret 
+      57 004A					exit: 
+      58 004A  C3				    ret 
+      59 004B					count  endp  
+      60 004B				code ends 
+      61				end main  
+Microsoft (R) Macro Assembler Version 5.00                  4/27/24 11:03:59
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	004B	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0019	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ARRAY  . . . . . . . . . . . . .  	L BYTE	000A	DATA
+
+COUNT  . . . . . . . . . . . . .  	N PROC	0019	CODE	Length = 0032
+
+EXIT . . . . . . . . . . . . . .  	L NEAR	004A	CODE
+
+ID . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+MAIN . . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 0019
+
+S10  . . . . . . . . . . . . . .  	L BYTE	0018	DATA
+S6 . . . . . . . . . . . . . . .  	L BYTE	0014	DATA
+S7 . . . . . . . . . . . . . . .  	L BYTE	0015	DATA
+S8 . . . . . . . . . . . . . . .  	L BYTE	0016	DATA
+S9 . . . . . . . . . . . . . . .  	L BYTE	0017	DATA
+SCORE_100  . . . . . . . . . . .  	L NEAR	0031	CODE
+SCORE_60 . . . . . . . . . . . .  	L NEAR	0045	CODE
+SCORE_70 . . . . . . . . . . . .  	L NEAR	0040	CODE
+SCORE_80 . . . . . . . . . . . .  	L NEAR	003B	CODE
+SCORE_90 . . . . . . . . . . . .  	L NEAR	0036	CODE
+
+XUNHUAN  . . . . . . . . . . . .  	L NEAR	000C	CODE
+
+@FILENAME  . . . . . . . . . . .  	TEXT  31		
+
+
+     59 Source  Lines
+     59 Total   Lines
+     20 Symbols
+
+  50522 + 465926 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
