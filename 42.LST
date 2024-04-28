@@ -1,0 +1,82 @@
+Microsoft (R) Macro Assembler Version 5.00                  4/28/24 21:23:01
+                                                             Page     1-1
+
+
+       1				assume cs:code, ds:data 
+       2 0000				data segment 
+       3 0000  0B			    maxlen db 11 
+       4 0001  ??				actlen db ? 
+       5 0002  32 32 32 33 33 31 32	    id db '2223312154' 
+       6       31 35 34			
+       7 000C  000A[				BUFFER db 10 dup(?) 
+       8	    ??			
+       9			 ]	
+      10				
+      11 0016  07 05 09 01 03 06 08		table db 7,5,9,1,3,6,8,0,2,4 
+      12       00 02 04			
+      13 0020				data ends 
+      14				 
+      15 0000				code segment 
+      16 0000				    main    proc 
+      17 0000  B8 ---- R		        mov   ax, data 
+      18 0003  8E D8			        mov   ds, ax 
+      19				         
+      20 0005  8D 16 0000 R				lea dx,maxlen 
+      21 0009  B4 0A					mov ah,0Ah 
+      22 000B  CD 21					int 21h 
+      23						 
+      24 000D  B9 000A					mov cx,10 
+      25 0010  8D 1E 0016 R				lea bx,table  
+      26 0014  BF 0000					mov di,0 
+      27 0017					rotate: 
+      28 0017  8A 85 000C R			    mov al,BUFFER[di] 
+      29 001B  2C 30					sub al,'0' 
+      30 001D  D7					xlat 
+      31 001E  88 85 000C R				mov BUFFER[di],al 
+      32 0022  47					inc di 
+      33 0023  E2 F2					loop rotate 
+      34				         
+      35 0025  B8 4C00			        mov   ax, 4c00h 
+      36 0028  CD 21			        int   21h 
+      37 002A				    main    endp 
+      38 002A				code ends 
+      39				end main  
+Microsoft (R) Macro Assembler Version 5.00                  4/28/24 21:23:01
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	002A	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	0020	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ACTLEN . . . . . . . . . . . . .  	L BYTE	0001	DATA
+
+BUFFER . . . . . . . . . . . . .  	L BYTE	000C	DATA	Length = 000A
+
+ID . . . . . . . . . . . . . . .  	L BYTE	0002	DATA
+
+MAIN . . . . . . . . . . . . . .  	N PROC	0000	CODE	Length = 002A
+MAXLEN . . . . . . . . . . . . .  	L BYTE	0000	DATA
+
+ROTATE . . . . . . . . . . . . .  	L NEAR	0017	CODE
+
+TABLE  . . . . . . . . . . . . .  	L BYTE	0016	DATA
+
+@FILENAME  . . . . . . . . . . .  	TEXT  42		
+
+
+     34 Source  Lines
+     34 Total   Lines
+     11 Symbols
+
+  50444 + 466004 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

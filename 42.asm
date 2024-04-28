@@ -1,13 +1,13 @@
+assume cs:code, ds:data
 data segment
     maxlen db 11
 	actlen db ?
-	buffer db 10 dup(?)
-    id db '2196114661'
+    id db '2223312154'
+	BUFFER db 10 dup(?)
 	table db 7,5,9,1,3,6,8,0,2,4
 data ends
 
 code segment
-    assume cs:code, ds:data
     main    proc
         mov   ax, data
         mov   ds, ax
@@ -20,10 +20,10 @@ code segment
 		lea bx,table 
 		mov di,0
 	rotate:
-	    mov al,buffer[di]
+	    mov al,BUFFER[di]
 		sub al,'0'
 		xlat
-		mov buffer[di],al
+		mov BUFFER[di],al
 		inc di
 		loop rotate
         
