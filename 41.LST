@@ -1,0 +1,122 @@
+Microsoft (R) Macro Assembler Version 5.00                  4/28/24 15:48:40
+                                                             Page     1-1
+
+
+       1				assume cs:code, ds:data 
+       2 0000				data segment 
+       3 0000  32 32 32 33 33 31 32	    id  db  '2223312154' 
+       4       31 35 34			
+       5 000A  0000				num  dw  0 
+       6 000C				data ends 
+       7 0000				code segment 
+       8 0000				    main    proc  far 
+       9 0000  B8 ---- R		        mov   ax, data 
+      10 0003  8E D8			        mov   ds, ax 
+      11 0005  B0 1C					mov al,1ch 
+      12 0007  B4 35					mov ah,35h 
+      13 0009  CD 21					int 21h 
+      14 000B  06					push es 
+      15 000C  53					push bx 
+      16 000D  1E					push ds 
+      17 000E  BA 0067 R				mov dx,offset inter 
+      18 0011  B8 ---- R				mov ax,seg inter 
+      19 0014  8E D8					mov ds,ax 
+      20 0016  B0 1C					mov al,1ch 
+      21 0018  B4 25					mov ah,25h 
+      22 001A  CD 21					int 21h 
+      23 001C  1F					pop ds 
+      24						 
+      25 001D					input: 
+      26 001D  B4 01					mov ah,01h 
+      27 001F  CD 21					int 21h 
+      28 0021  3C 51					cmp al,51h 
+      29 0023  75 F8					jnz input 
+      30						 
+      31				 
+      32 0025  B2 0D					mov dl,0dh 
+      33 0027  B4 02					mov ah,2 
+      34 0029  CD 21					int 21h 
+      35 002B  B2 0A					mov dl,0ah 
+      36 002D  B4 02					mov ah,2 
+      37 002F  CD 21					int 21h 
+      38						 
+      39 0031  8B 1E 000A R				mov bx,num 
+      40 0035  B5 04					mov ch,4 
+      41 0037  B1 04					mov cl,4 
+      42 0039					rotate: 
+      43 0039  D3 C3					rol bx,cl 
+      44 003B  8A C3					mov al,bl 
+      45 003D  24 0F					and al,0fh 
+      46 003F  04 30					add al,30h 
+      47 0041  3C 3A					cmp al,3ah 
+      48 0043  7C 05					jl  print 
+      49 0045  04 07					add al,7h 
+      50 0047  EB 01 90			        jmp print 
+      51 004A					print: 
+      52 004A  8A D0					mov dl,al 
+      53 004C  B4 02					mov ah,2 
+      54 004E  CD 21					int 21h 
+Microsoft (R) Macro Assembler Version 5.00                  4/28/24 15:48:40
+                                                             Page     1-2
+
+
+      55 0050  FE CD					dec ch 
+      56 0052  75 E5					jnz rotate 
+      57						 
+      58 0054  B2 68					mov dl,'h' 
+      59 0056  B4 02					mov ah,2 
+      60 0058  CD 21					int 21h 
+      61				 
+      62 005A  5A					pop dx 
+      63 005B  1F					pop ds 
+      64 005C  B0 1C					mov al,1ch 
+      65 005E  B4 25					mov ah,25h 
+      66 0060  CD 21					int 21h 
+      67						 
+      68 0062  B8 4C00			        mov   ax, 4c00h 
+      69 0065  CD 21			        int   21h 
+      70 0067				    main    endp 
+      71 0067					inter  proc  near 
+      72 0067  FF 06 000A R				inc num 
+      73 006B  CF				    iret 
+      74 006C					inter  endp 
+      75 006C				code ends 
+      76				end main  
+Microsoft (R) Macro Assembler Version 5.00                  4/28/24 15:48:40
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	006C	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	000C	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ID . . . . . . . . . . . . . . .  	L BYTE	0000	DATA
+INPUT  . . . . . . . . . . . . .  	L NEAR	001D	CODE
+INTER  . . . . . . . . . . . . .  	N PROC	0067	CODE	Length = 0005
+
+MAIN . . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 0067
+
+NUM  . . . . . . . . . . . . . .  	L WORD	000A	DATA
+
+PRINT  . . . . . . . . . . . . .  	L NEAR	004A	CODE
+
+ROTATE . . . . . . . . . . . . .  	L NEAR	0039	CODE
+
+@FILENAME  . . . . . . . . . . .  	TEXT  41		
+
+
+     75 Source  Lines
+     75 Total   Lines
+     11 Symbols
+
+  50560 + 465888 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
