@@ -1,9 +1,9 @@
 assume cs:code, ds:data
 data segment
-    maxlen db 11
+	maxlen db 11
 	actlen db ?
-    id db '2223312154'
 	BUFFER db 10 dup(?)
+    id db '2223312154'
 	table db 7,5,9,1,3,6,8,0,2,4
 data ends
 
